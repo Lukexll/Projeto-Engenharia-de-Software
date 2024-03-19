@@ -18,8 +18,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 @RequestMapping("/duck-delivery")
 
 public class UserController {
-    @Autowired
-    private UserService us;
+    private final UserService us;
+
+    public UserController(UserService us) {
+        this.us = us;
+    }
 
     @PostMapping("/UserRegister")
     public ResponseEntity<?> userRegister(@RequestBody UserModel um){
