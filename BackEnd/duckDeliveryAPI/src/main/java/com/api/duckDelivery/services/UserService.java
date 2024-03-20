@@ -1,36 +1,26 @@
 package com.api.duckDelivery.services;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Service;
-
-import com.api.duckDelivery.models.ResponseModel;
 import com.api.duckDelivery.models.UserModel;
+import jakarta.transaction.Transactional;
+import jakarta.validation.Valid;
+import org.springframework.stereotype.Service;
 import com.api.duckDelivery.repositories.UserRepository;
+import org.springframework.web.bind.annotation.RequestBody;
 
 @Service
 public class UserService {
-
-    @Autowired
-    private UserRepository ur;
-
-    @Autowired
-    private ResponseModel rm;
-
+    private final UserRepository userRepository;
+    public UserService(UserRepository ur) {
+        this.userRepository = ur;
+    }
 
     //Método para cadastro de usuário
-    public ResponseEntity<?> UserRegister(UserModel um){
+    @Transactional
+    public UserModel UserRegister(@RequestBody @Valid UserModel userModel){
+        return userRepository.save(userModel);
+    }
 
-        for (int i = 1; i< ur.count(); i++){
-            if (um.getEmail() == ur.findAll().get(i).getEmail()) {
-                rm.setMensagem(false);
-                return new ResponseEntity<ResponseModel>(rm, HttpStatus.BAD_REQUEST);
-            }
-        }
-        rm.setMensagem(true);
-        ur.save(um);
-        return new ResponseEntity<ResponseModel>(rm, HttpStatus.CREATED);
-
+    public boolean existsByEmail(String emailUser){
+        return userRepository.existsByEmail(emailUser);
     }
 }
