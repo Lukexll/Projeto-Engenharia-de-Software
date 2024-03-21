@@ -21,7 +21,7 @@ public class LoginInterceptor implements HandlerInterceptor{
         }
 
         //Pra quando tiver a tela de login, redirecionar para ela caso não haja cookie
-        //response.sendRedirect("/login");
+        //response.sendRedirect("login.js");
         return false;
         
     } 
