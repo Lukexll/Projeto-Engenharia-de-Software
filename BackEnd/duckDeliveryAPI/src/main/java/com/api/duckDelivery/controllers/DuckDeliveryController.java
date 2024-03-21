@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RestController;
 //Usada para controlar os post, get, put.
 @RestController
 @CrossOrigin(origins = "*",maxAge = 3600)
-@RequestMapping("/duck-delivery")//URI a nível de classe,
+@RequestMapping("/login")//URI a nível de classe,
 // os end points são acessados a partir de "/duck-delivery"
 public class DuckDeliveryController {
 
