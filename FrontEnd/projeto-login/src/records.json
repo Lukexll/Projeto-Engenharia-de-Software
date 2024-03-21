@@ -1,0 +1,75 @@
+{
+    "Login": {
+      "type": "div",
+      "props": {
+        "className": "wrapper",
+        "children": [
+          { "type": "img", "props": { "src": "imagem" }},
+          {
+            "type": "form",
+            "props": {
+              "action": "",
+              "children": [
+                { "type": "h1", "props": { "children": [{ "type": "span", "props": { "children": "DUCK'S" }}, " DELIVERY" ]}},
+                {
+                  "type": "div",
+                  "props": {
+                    "className": "input-box",
+                    "children": [
+                      { "type": "input", "props": { "type": "text", "placeholder": "Email", "required": true }}
+                    ]
+                  }
+                },
+                {
+                  "type": "div",
+                  "props": {
+                    "className": "input-box",
+                    "children": [
+                      { "type": "input", "props": { "type": "password", "placeholder": "Senha", "required": true }}
+                    ]
+                  }
+                },
+                {
+                  "type": "div",
+                  "props": {
+                    "className": "remember-forgot",
+                    "children": [
+                      { 
+                        "type": "label", 
+                        "props": { 
+                          "children": [
+                            { "type": "input", "props": { "type": "checkbox" }},
+                            "Lembrar de mim"
+                          ]
+                        }
+                      },
+                      { "type": "a", "props": { "href": "#", "children": "Esqueceu a senha?" }}
+                    ]
+                  }
+                },
+                { "type": "button", "props": { "type": "submit", "className": "btn", "children": "Login" }},
+                {
+                  "type": "div",
+                  "props": {
+                    "className": "register-link",
+                    "children": [
+                      { 
+                        "type": "p", 
+                        "props": { 
+                          "children": [
+                            "Não tem uma conta? ",
+                            { "type": "a", "props": { "href": "#", "children": "Registre-se" }}
+                          ]
+                        }
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    }
+  }
+  
