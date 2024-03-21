@@ -1,14 +1,11 @@
-package com.api.duckDelivery.dtos;
+package com.api.duckDelivery.dto
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
 import java.io.Serializable;
-import java.util.UUID;
+
 
 //Usado para garantir que os dados do cliente está como desejado.
 //Utilizando notações e nessa parte so está os dados que o cliente irá inserir.
