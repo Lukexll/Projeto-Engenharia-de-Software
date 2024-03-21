@@ -1,4 +1,4 @@
-package com.api.duckDelivery.dto
+package com.api.duckDelivery.dtos;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
