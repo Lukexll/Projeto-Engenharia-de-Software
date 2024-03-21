@@ -2,6 +2,7 @@ package com.api.duckDelivery.controllers;
 
 import com.api.duckDelivery.dtos.UserDto;
 
+
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
@@ -27,6 +28,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 @RestController
 @CrossOrigin(origins = "*",maxAge = 3600)
 @RequestMapping("/login")
+
 public class UserController {
     private final com.api.duckDelivery.services.UserService userService;
 
@@ -34,7 +36,9 @@ public class UserController {
         this.userService = userService;
     }
 
+
     @PostMapping("/userRegister")
+
     public ResponseEntity<Object> userRegister(@RequestBody @Valid UserDto userDto){
         if (userService.existsByEmail(userDto.getEmail())){
             return ResponseEntity.status(HttpStatus.CONFLICT).body("Conflict: Email existente.");
@@ -42,6 +46,7 @@ public class UserController {
         var userModel = new UserModel();
         BeanUtils.copyProperties(userDto, userModel);
         return ResponseEntity.status(HttpStatus.CREATED).body(userService.UserRegister(userModel));
+
     }
 
     

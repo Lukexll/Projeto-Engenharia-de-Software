@@ -13,6 +13,7 @@ import java.util.UUID;
 @Repository
 public interface UserRepository extends JpaRepository<UserModel, UUID> {
     boolean existsByEmail(String emailUser);
+
     UserModel findByEmail(String emailUser);
 
     //Query utilizada para buscar a conta no banco
