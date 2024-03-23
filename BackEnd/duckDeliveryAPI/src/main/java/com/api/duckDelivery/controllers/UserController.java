@@ -11,9 +11,9 @@ import jakarta.validation.Valid;
 import org.springframework.beans.BeanUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 
 import com.api.duckDelivery.models.LoginModel;
 import com.api.duckDelivery.models.UserModel;
@@ -25,7 +25,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 
 
-@RestController
+
+
+
+@Controller
 @CrossOrigin(origins = "*",maxAge = 3600)
 @RequestMapping("/login")
 
@@ -38,7 +41,6 @@ public class UserController {
 
 
     @PostMapping("/userRegister")
-
     public ResponseEntity<Object> userRegister(@RequestBody @Valid UserDto userDto){
         if (userService.existsByEmail(userDto.getEmail())){
             return ResponseEntity.status(HttpStatus.CONFLICT).body("Conflict: Email existente.");
@@ -61,7 +63,7 @@ public class UserController {
         CookieService.setCookie(response, "userId", String.valueOf(userService.findByEmail(loginParam.getEmail()).getId()), 10);
         return ResponseEntity.status(HttpStatus.ACCEPTED).body("Login efetuado.");
             
-    }
+    } 
     
     
 
