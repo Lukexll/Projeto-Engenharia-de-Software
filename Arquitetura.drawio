@@ -1,6 +1,6 @@
-<mxfile host="app.diagrams.net" modified="2024-03-23T19:12:11.228Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36 Edg/122.0.0.0" etag="VbiXA57bh-3O5SqiFqn-" version="24.0.6" type="github">
+<mxfile host="app.diagrams.net" modified="2024-03-23T19:21:47.153Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36 Edg/122.0.0.0" etag="N51FfqWipmTcNKr7ZCAh" version="24.0.6" type="github">
   <diagram name="Page-1" id="b5b7bab2-c9e2-2cf4-8b2a-24fd1a2a6d21">
-    <mxGraphModel dx="3204" dy="1483" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" background="none" math="0" shadow="0">
+    <mxGraphModel dx="2016" dy="741" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" background="none" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -48,7 +48,7 @@
         <mxCell id="28QVhBkN_ToioN5ZWOhv-18" value="&lt;span style=&quot;font-size: 18px;&quot;&gt;EmailValidation()&lt;/span&gt;" style="shape=folder;fontStyle=1;spacingTop=10;tabWidth=40;tabHeight=14;tabPosition=left;html=1;whiteSpace=wrap;" vertex="1" parent="1">
           <mxGeometry x="700" y="650" width="160" height="80" as="geometry" />
         </mxCell>
-        <mxCell id="28QVhBkN_ToioN5ZWOhv-48" value="&lt;font style=&quot;font-size: 24px;&quot;&gt;UPDATE&lt;/font&gt;" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0;exitDx=0;exitDy=34.25;exitPerimeter=0;entryX=0.85;entryY=0.95;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="1" source="28QVhBkN_ToioN5ZWOhv-19" target="28QVhBkN_ToioN5ZWOhv-4">
+        <mxCell id="28QVhBkN_ToioN5ZWOhv-48" value="&lt;font style=&quot;font-size: 24px;&quot;&gt;UPDATE&lt;/font&gt;" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0;exitDx=0;exitDy=34.25;exitPerimeter=0;entryX=0.929;entryY=0.943;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="1" source="28QVhBkN_ToioN5ZWOhv-19" target="28QVhBkN_ToioN5ZWOhv-4">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
         <mxCell id="28QVhBkN_ToioN5ZWOhv-19" value="&lt;font style=&quot;font-size: 18px;&quot;&gt;PasswordExchange()&lt;/font&gt;" style="shape=folder;fontStyle=1;spacingTop=10;tabWidth=40;tabHeight=14;tabPosition=left;html=1;whiteSpace=wrap;" vertex="1" parent="1">
@@ -133,7 +133,7 @@
             <mxPoint x="1660" y="750" as="targetPoint" />
           </mxGeometry>
         </mxCell>
-        <mxCell id="28QVhBkN_ToioN5ZWOhv-47" value="&lt;font style=&quot;font-size: 24px;&quot;&gt;/login/passwordExchange&lt;/font&gt;" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0;exitDx=0;exitDy=14;exitPerimeter=0;entryX=0;entryY=0;entryDx=200;entryDy=14;entryPerimeter=0;" edge="1" parent="1" source="28QVhBkN_ToioN5ZWOhv-45" target="28QVhBkN_ToioN5ZWOhv-19">
+        <mxCell id="28QVhBkN_ToioN5ZWOhv-47" value="&lt;font style=&quot;font-size: 24px;&quot;&gt;/login/passwordExchange: POST&lt;/font&gt;" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0;exitDx=0;exitDy=14;exitPerimeter=0;entryX=0;entryY=0;entryDx=200;entryDy=14;entryPerimeter=0;" edge="1" parent="1" source="28QVhBkN_ToioN5ZWOhv-45" target="28QVhBkN_ToioN5ZWOhv-19">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
         <mxCell id="28QVhBkN_ToioN5ZWOhv-49" value="&lt;font style=&quot;font-size: 24px;&quot;&gt;HTTPSTATUS&lt;/font&gt;" style="html=1;verticalAlign=bottom;endArrow=open;dashed=1;endSize=8;curved=0;rounded=0;exitX=0;exitY=0;exitDx=200;exitDy=95;exitPerimeter=0;entryX=0;entryY=0;entryDx=0;entryDy=100;entryPerimeter=0;" edge="1" parent="1" source="28QVhBkN_ToioN5ZWOhv-19" target="28QVhBkN_ToioN5ZWOhv-45">
