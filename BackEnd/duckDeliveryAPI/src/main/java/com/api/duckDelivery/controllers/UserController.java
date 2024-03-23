@@ -11,9 +11,9 @@ import jakarta.validation.Valid;
 import org.springframework.beans.BeanUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.api.duckDelivery.models.LoginModel;
 import com.api.duckDelivery.models.UserModel;
@@ -28,7 +28,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 
 
-@Controller
+@RestController
 @CrossOrigin(origins = "*",maxAge = 3600)
 @RequestMapping("/login")
 
@@ -55,7 +55,8 @@ public class UserController {
     @PostMapping("/userLogin")
     public ResponseEntity<Object> UserLogin(@RequestBody @Valid LoginModel loginParam, HttpServletResponse response, HttpServletRequest requestCookie) {
         if(!userService.existsByEmail(loginParam.getEmail())){
-            return ResponseEntity.status(HttpStatus.CONFLICT).body("Conflict: Email não cadastrado.");
+
+            return new ResponseEntity<Object>("Deu ruim", HttpStatus.BAD_REQUEST);
         }
         if(userService.UserLogin(loginParam.getEmail(), loginParam.getSenha()) == null){
             return ResponseEntity.status(HttpStatus.CONFLICT).body("Conflict: Senha incorreta.");

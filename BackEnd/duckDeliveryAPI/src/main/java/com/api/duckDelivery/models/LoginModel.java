@@ -8,6 +8,5 @@ import lombok.Setter;
 public class LoginModel {
     private String email;
     private String senha;
-    private String lembrar;
 
 }
