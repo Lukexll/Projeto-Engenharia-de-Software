@@ -13,9 +13,11 @@ public class LoginInterceptorAppConfig extends WebMvcConfigurationSupport {
         .excludePathPatterns(
             "/login/userRegister",
             "/login/userLogin",
+            "/login/red",
             "/login",
             "/js/**",
-            "/css/**"
+            "/css/**",
+            "/"
         );
     }
 }
