@@ -6,6 +6,7 @@ import imagem from './img/duckDelivery.png';
 function Login() {
     const [email, setEmail] = useState('');
     const [senha, setSenha] = useState('');
+    const [btnLogin, setBtnLogin] = useState(true); 
 
     const handleSubmit = async (event) => {
         event.preventDefault();
@@ -36,6 +37,7 @@ function Login() {
 
     return (
         <div className="wrapper">
+            
             <img src={imagem} alt="Logo" />
             <form onSubmit={handleSubmit}>
                 <h1><span>DUCK'S</span> DELIVERY</h1>
@@ -66,7 +68,7 @@ function Login() {
                     <a href="#">Esqueceu a senha?</a>
                 </div>
 
-                <button type="submit" className="btn">Login</button>
+                <Login botao={btnLogin} />
 
                 <div className="register-link">
                     <p>Não tem uma conta? <a href="#">Registre-se</a></p>
