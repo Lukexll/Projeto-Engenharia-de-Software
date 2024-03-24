@@ -21,19 +21,24 @@ function Login() {
            setObjLogin({...objLogin, [e.target.name]:e.target.value});
     }
        
-        const userLogin = () => {
-            fetch('http://Localhost:8080/login/userLogin', {
-            method:'post',
-            body:JSON.stringify(objLogin),
-            headers: {
-                'Content-Type': 'application/json',
-                'Accept': 'application/json'
-            }
-            
-        });
-
-
-        } 
+    const userLogin = () => {
+        fetch('http://localhost:8080/login/userLogin', {
+          method: 'post',
+          body: JSON.stringify(objLogin),
+          headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+          }
+          
+        })
+        .then(retorno => retorno.json())
+        .then(retorno_convertido => {
+            console.log(retorno_convertido);
+        })
+        
+        
+      };
+      
             
    
 
