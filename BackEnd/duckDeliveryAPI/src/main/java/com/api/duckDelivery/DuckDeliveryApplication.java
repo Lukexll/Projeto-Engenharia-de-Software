@@ -1,5 +1,6 @@
 package com.api.duckDelivery;
 
+
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,6 +16,7 @@ public class DuckDeliveryApplication {
 class MyControler {
 	@GetMapping("/")
 	public String index() {
-		return "OK";
+		
+		return "ok";
 	}
 }
