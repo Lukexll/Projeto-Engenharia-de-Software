@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.UUID;
 
@@ -15,6 +16,7 @@ import java.util.UUID;
 @Setter
 public class UserModel implements Serializable {
 
+    @Serial
     private static final long serialVersionUID = 1L;
 
     @Id
@@ -23,17 +25,17 @@ public class UserModel implements Serializable {
     @Column(nullable = false)
     private String email;
     @Column(nullable = false)
-    private String nome;
+    private String name;
     @Column(nullable = false, length = 11)
-    private String telefone;
+    private String telephone;
     @Column(nullable = false)
-    private String bairro;
+    private String neighborhood;
     @Column(nullable = false)
-    private String rua;
+    private String road;
     @Column(nullable = false)
-    private String numero;
+    private String number;
     @Column(nullable = false)
-    private String senha;
+    private String password;
     
 
 

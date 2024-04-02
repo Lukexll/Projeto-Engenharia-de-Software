@@ -18,16 +18,16 @@ public class UserDto implements Serializable {
     @NotBlank
     private String email;
     @NotBlank
-    private String nome;
+    private String name;
     @NotBlank
     @Size(max = 11)
-    private String telefone;
+    private String telephone;
     @NotBlank
-    private String bairro;
+    private String neighborhood;
     @NotBlank
-    private String rua;
+    private String road;
     @NotBlank
-    private String numero;
+    private String number;
     @NotBlank
-    private String senha;
+    private String password;
 }

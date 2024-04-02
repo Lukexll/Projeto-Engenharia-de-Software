@@ -10,6 +10,9 @@ import org.springframework.stereotype.Service;
 import com.api.duckDelivery.repositories.UserRepository;
 import org.springframework.web.bind.annotation.RequestBody;
 
+import java.util.Optional;
+import java.util.UUID;
+
 @Service
 public class UserService {
     private final UserRepository userRepository;
@@ -34,5 +37,13 @@ public class UserService {
     public UserModel UserLogin(String emailUser, String senhaUser){
         return userRepository.UserLogin(emailUser, senhaUser);
     }
-    
+
+    public Optional<UserModel> findById(UUID id) {
+        return userRepository.findById(id);
+    }
+
+
+    public void delete(UserModel userModel) {
+        userRepository.delete(userModel);
+    }
 }

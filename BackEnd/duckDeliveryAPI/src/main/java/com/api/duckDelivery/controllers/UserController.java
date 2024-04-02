@@ -12,22 +12,16 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.api.duckDelivery.models.LoginModel;
 import com.api.duckDelivery.models.ResponseModel;
 import com.api.duckDelivery.models.UserModel;
 import com.api.duckDelivery.services.CookieService;
 import com.api.duckDelivery.services.UserService;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 
-
-
-
-
+import java.util.Optional;
+import java.util.UUID;
 
 
 @RestController
@@ -46,13 +40,15 @@ public class UserController {
     public ResponseModel responseModel;
 
     @PostMapping("/userRegister")
-    public ResponseEntity<Object> userRegister(@RequestBody @Valid UserDto userDto){
+    public ResponseEntity<ResponseModel> userRegister(@RequestBody @Valid UserDto userDto){
         if (userService.existsByEmail(userDto.getEmail())){
-            return ResponseEntity.status(HttpStatus.CONFLICT).body("Conflict: Email existente.");
+            responseModel.setMessage("Conflict: Email existente.");
+            return new ResponseEntity<ResponseModel>(responseModel,HttpStatus.BAD_REQUEST);
         }
         var userModel = new UserModel();
         BeanUtils.copyProperties(userDto, userModel);
-        return ResponseEntity.status(HttpStatus.CREATED).body(userService.UserRegister(userModel));
+        responseModel.setMessage("Cadastrado.");
+        return new ResponseEntity<ResponseModel>(responseModel,HttpStatus.ACCEPTED);
 
     }
 
@@ -73,6 +69,16 @@ public class UserController {
             
     } 
     
-    
+    @DeleteMapping("/userDelete")
+    public ResponseEntity<?> UserDelete(@PathVariable (value = "id") UUID id){
+        Optional<UserModel> userModelOptional = userService.findById(id);
+        if (userModelOptional.isEmpty()) {
+            responseModel.setMessage("Usuário não encontrado.");
+            return new ResponseEntity<ResponseModel>(responseModel,HttpStatus.BAD_REQUEST);
+        }
+        userService.delete(userModelOptional.get());
+        responseModel.setMessage("Usuário deletado");
+        return new ResponseEntity<ResponseModel>(responseModel,HttpStatus.ACCEPTED);
+    }
 
 }
