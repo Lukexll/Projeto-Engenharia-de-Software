@@ -1,35 +1,52 @@
-import React from 'react';
+
+import React, { useState } from 'react';
 import './style.css';
-import imagem from './img/duckDelivery.png'
+import FormularioLogin from './FormularioLogin';
+import imagem from './img/duckDelivery.png';
 
 function Login() {
+
+    const login = {
+        email: '',
+        senha: ''
+    };
+
+    const [objLogin, setObjLogin] = useState(login);
+    const [btnLogin, setBtnLogin] = useState(true); 
+
+ 
+        
+
+    const aoDigitar = (e) => {
+           setObjLogin({...objLogin, [e.target.name]:e.target.value});
+    }
+       
+    const userLogin = () => {
+        fetch('http://localhost:8080/login/userLogin', {
+          method: 'post',
+          body: JSON.stringify(objLogin),
+          headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+          }
+          
+        })
+        .then(retorno => retorno.json())
+        .then(retorno_convertido => {
+            console.log(retorno_convertido);
+        })
+        
+        
+      };
+      
+            
+   
+
     return (
-        <div className="wrapper">
-            <img src={imagem}></img>
-            <form action="">
-                <h1><span>DUCK'S</span> DELIVERY</h1>
-                <div className="input-box">
-                    <input type="text" placeholder="Email" required />
-                </div>
-                <div className="input-box">
-                    <input type="password" placeholder="Senha" required />
-                </div>
-
-                <div className="remember-forgot">
-                    <label><input type="checkbox" />Lembrar de mim </label>
-                    <a href="#">Esqueceu a senha?</a>
-                </div>
-
-                <button type="submit" className="btn">Login</button>
-
-                <div className="register-link">
-                    <p>Não tem uma conta? <a href="#">Registre-se</a></p>
-                </div>
-            </form>
+        <div>
+            <FormularioLogin botao={btnLogin} eventoTeclado={aoDigitar} logar={userLogin}/>
         </div>
-
     );
 }
-
 
 export default Login;
