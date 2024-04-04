@@ -18,5 +18,5 @@ public interface UserRepository extends JpaRepository<UserModel, UUID> {
 
     //Query utilizada para buscar a conta no banco
     @Query(value = "select * from tb_user where email = :email and senha = :senha", nativeQuery = true)
-    public UserModel UserLogin(String email, String senha);
+    UserModel UserLogin(String email, String senha);
 }

@@ -6,38 +6,31 @@ import com.api.duckDelivery.dtos.UserDto;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
-
-
 import org.springframework.beans.BeanUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-
 import com.api.duckDelivery.models.LoginModel;
 import com.api.duckDelivery.models.ResponseModel;
 import com.api.duckDelivery.models.UserModel;
 import com.api.duckDelivery.services.CookieService;
 import com.api.duckDelivery.services.UserService;
-
 import java.util.Optional;
 import java.util.UUID;
 
-
-@RestController
+@Controller
 @CrossOrigin(origins = "*",maxAge = 3600)
 @RequestMapping("/login")
 
 public class UserController {
     private final com.api.duckDelivery.services.UserService userService;
-    
+    public final ResponseModel responseModel;
 
-    public UserController(UserService us, UserService userService) {
+    public UserController(UserService us, UserService userService, ResponseModel responseModel) {
         this.userService = userService;
+        this.responseModel = responseModel;
     }
-
-    @Autowired
-    public ResponseModel responseModel;
 
     @PostMapping("/userRegister")
     public ResponseEntity<ResponseModel> userRegister(@RequestBody @Valid UserDto userDto, HttpServletRequest request) {
