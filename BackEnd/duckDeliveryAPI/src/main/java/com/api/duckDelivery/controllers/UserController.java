@@ -40,16 +40,18 @@ public class UserController {
     public ResponseModel responseModel;
 
     @PostMapping("/userRegister")
-    public ResponseEntity<ResponseModel> userRegister(@RequestBody @Valid UserDto userDto){
+    public ResponseEntity<ResponseModel> userRegister(@RequestBody @Valid UserDto userDto, HttpServletRequest request) {
+        String userId = CookieService.getCookie(request, "userId");
+
         if (userService.existsByEmail(userDto.getEmail())){
             responseModel.setMessage("Conflict: Email existente.");
             return new ResponseEntity<ResponseModel>(responseModel,HttpStatus.BAD_REQUEST);
         }
+
         var userModel = new UserModel();
         BeanUtils.copyProperties(userDto, userModel);
         responseModel.setMessage("Cadastrado.");
         return new ResponseEntity<ResponseModel>(responseModel,HttpStatus.ACCEPTED);
-
     }
 
     
@@ -67,18 +69,26 @@ public class UserController {
         responseModel.setMessage("Login efetuado.");
         return new ResponseEntity<ResponseModel>(responseModel,HttpStatus.ACCEPTED);
             
-    } 
-    
+    }
+
     @DeleteMapping("/userDelete")
-    public ResponseEntity<?> UserDelete(@PathVariable (value = "id") UUID id){
+    public ResponseEntity<?> UserDelete(@PathVariable (value = "id") UUID id, HttpServletRequest request) {
+        String userId = CookieService.getCookie(request, "userId");
+        if (userId.isEmpty()) {
+            responseModel.setMessage("Não autorizado: O usuário não está logado.");
+            return new ResponseEntity<ResponseModel>(responseModel, HttpStatus.UNAUTHORIZED);
+        }
         Optional<UserModel> userModelOptional = userService.findById(id);
         if (userModelOptional.isEmpty()) {
             responseModel.setMessage("Usuário não encontrado.");
             return new ResponseEntity<ResponseModel>(responseModel,HttpStatus.BAD_REQUEST);
         }
+
         userService.delete(userModelOptional.get());
         responseModel.setMessage("Usuário deletado");
         return new ResponseEntity<ResponseModel>(responseModel,HttpStatus.ACCEPTED);
     }
+
+
 
 }
