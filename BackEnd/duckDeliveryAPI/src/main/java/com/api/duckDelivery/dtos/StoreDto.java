@@ -22,18 +22,6 @@ public class StoreDto implements Serializable {
     @NotBlank
     private String number;
     @NotBlank
-    @Size(max = 11)
-    private String telephone;
-    @NotBlank
-    private String email;
-    @NotBlank
-    private String password;
-    @NotBlank
-    private String openingHours;
-    @NotBlank
-    @Size(max = 1000)
-    private String description;
-    @NotBlank
-    @Size(max = 14, min = 14)
+    @Size(max = 14)
     private String CNPJ;
 }

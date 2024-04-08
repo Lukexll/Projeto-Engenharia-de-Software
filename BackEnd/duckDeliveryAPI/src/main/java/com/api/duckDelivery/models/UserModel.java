@@ -20,6 +20,7 @@ public class UserModel implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
+
     @Column(nullable = false)
     private String email;
     @Column(nullable = false)
@@ -34,8 +35,5 @@ public class UserModel implements Serializable {
     private String number;
     @Column(nullable = false)
     private String password;
-    
-
-
 
 }

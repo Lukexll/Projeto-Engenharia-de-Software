@@ -22,7 +22,6 @@ import java.util.UUID;
 @Controller
 @CrossOrigin(origins = "*",maxAge = 3600)
 @RequestMapping("/login")
-
 public class UserController {
     private final com.api.duckDelivery.services.UserService userService;
     public final ResponseModel responseModel;
@@ -33,18 +32,17 @@ public class UserController {
     }
 
     @PostMapping("/userRegister")
-    public ResponseEntity<ResponseModel> userRegister(@RequestBody @Valid UserDto userDto, HttpServletRequest request) {
-        String userId = CookieService.getCookie(request, "userId");
-
+    public ResponseEntity<ResponseModel> userRegister(@RequestBody @Valid UserDto userDto) {
         if (userService.existsByEmail(userDto.getEmail())){
             responseModel.setMessage("Conflict: Email existente.");
-            return new ResponseEntity<ResponseModel>(responseModel,HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(responseModel,HttpStatus.BAD_REQUEST);
         }
 
         var userModel = new UserModel();
         BeanUtils.copyProperties(userDto, userModel);
+        userService.saveUser(userModel);
         responseModel.setMessage("Cadastrado.");
-        return new ResponseEntity<ResponseModel>(responseModel,HttpStatus.ACCEPTED);
+        return new ResponseEntity<>(responseModel,HttpStatus.ACCEPTED);
     }
 
     
@@ -52,7 +50,7 @@ public class UserController {
     public ResponseEntity<?> UserLogin(@RequestBody @Valid LoginModel loginParam, HttpServletResponse response, HttpServletRequest requestCookie) {
         if(!userService.existsByEmail(loginParam.getEmail())){
             responseModel.setMessage("Email não cadastrado.");
-            return new ResponseEntity<ResponseModel>(responseModel,HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(responseModel,HttpStatus.BAD_REQUEST);
         }
         if(userService.UserLogin(loginParam.getEmail(), loginParam.getSenha()) == null){
             responseModel.setMessage("Senha incorreta.");
@@ -69,17 +67,17 @@ public class UserController {
         String userId = CookieService.getCookie(request, "userId");
         if (userId.isEmpty()) {
             responseModel.setMessage("Não autorizado: O usuário não está logado.");
-            return new ResponseEntity<ResponseModel>(responseModel, HttpStatus.UNAUTHORIZED);
+            return new ResponseEntity<>(responseModel, HttpStatus.UNAUTHORIZED);
         }
         Optional<UserModel> userModelOptional = userService.findById(id);
         if (userModelOptional.isEmpty()) {
             responseModel.setMessage("Usuário não encontrado.");
-            return new ResponseEntity<ResponseModel>(responseModel,HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(responseModel,HttpStatus.BAD_REQUEST);
         }
 
         userService.delete(userModelOptional.get());
         responseModel.setMessage("Usuário deletado");
-        return new ResponseEntity<ResponseModel>(responseModel,HttpStatus.ACCEPTED);
+        return new ResponseEntity<>(responseModel,HttpStatus.ACCEPTED);
     }
 
 

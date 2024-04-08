@@ -1,101 +1,79 @@
 package com.api.duckDelivery.controllers;
 
 import com.api.duckDelivery.dtos.StoreDto;
-import com.api.duckDelivery.models.LoginModel;
 import com.api.duckDelivery.models.ResponseModel;
 import com.api.duckDelivery.models.StoreModel;
+import com.api.duckDelivery.repositories.StoreRepository;
 import com.api.duckDelivery.services.CookieService;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
-import jakarta.validation.Valid;
+import com.api.duckDelivery.services.StoreService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-import java.util.HashMap;
-import java.util.Map;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.Valid;
+import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 
 @Controller
-@CrossOrigin(origins = "*",maxAge = 3600)
-@RequestMapping("/")
+@CrossOrigin(origins = "*", maxAge = 3600)
+@RequestMapping("/store")
 public class StoreController {
 
-    private final com.api.duckDelivery.services.StoreService storeService;
+    private final StoreService storeService;
     private final ResponseModel responseModel;
+    private final StoreRepository storeRepository;
 
-    public StoreController(com.api.duckDelivery.services.StoreService storeService, ResponseModel responseModel) {
+    public StoreController(StoreService storeService, ResponseModel responseModel, StoreRepository storeRepository) {
         this.storeService = storeService;
         this.responseModel = responseModel;
+        this.storeRepository = storeRepository;
     }
 
     @PostMapping("/storeRegister")
-    public ResponseEntity<ResponseModel> storeRegister(@RequestBody @Valid StoreDto storeDto, HttpServletRequest request){
-        String storeId = CookieService.getCookie(request, "storeId");
+    public ResponseEntity<ResponseModel> storeRegister(@RequestBody @Valid StoreDto storeDto, HttpServletRequest request) {
+        String userId = CookieService.getCookie(request, "userId");
 
-        if (storeService.existByCNPJ(storeDto.getCNPJ())){
-            responseModel.setMessage("CNPJ existente");
+        if (storeService.existByCNPJ(storeDto.getCNPJ()) && storeService.existByStoreName(storeDto.getStoreName())) {
+            responseModel.setMessage("CNPJ e nome existente");
             return new ResponseEntity<>(responseModel, HttpStatus.BAD_REQUEST);
         }
 
         var storeModel = new StoreModel();
         BeanUtils.copyProperties(storeDto, storeModel);
+        storeModel.setID_User(userId);
+        storeService.saveStore(storeModel);
         responseModel.setMessage("Cadastrado.");
-        return new ResponseEntity<>(responseModel,HttpStatus.ACCEPTED);
+        return new ResponseEntity<>(responseModel, HttpStatus.ACCEPTED);
     }
 
-    @PostMapping("/storeLogin")
-    public ResponseEntity<?> StoreLogin(@RequestBody @Valid LoginModel loginParam, HttpServletResponse response, HttpServletRequest requestCookie) {
-        if(!storeService.existsByEmail(loginParam.getEmail())){
-            responseModel.setMessage("Email não cadastrado.");
-            return new ResponseEntity<>(responseModel,HttpStatus.BAD_REQUEST);
-        }
-        if(storeService.StoreLogin(loginParam.getEmail(), loginParam.getSenha()) == null){
-            responseModel.setMessage("Senha incorreta.");
-            return new ResponseEntity<>(responseModel,HttpStatus.BAD_REQUEST);
-        }
-        CookieService.setCookie(response, "storeId", String.valueOf(storeService.findByEmail(loginParam.getEmail()).getId()), 10);
-        responseModel.setMessage("Login efetuado.");
-        return new ResponseEntity<>(responseModel,HttpStatus.ACCEPTED);
-
-    }
-
-    @GetMapping("/storeGet/{id}")
-    public ResponseEntity<?> getOneStore(@PathVariable(value = "id") UUID id){
-        Optional<StoreModel> storeModelOptional = storeService.findById(id);
+    @DeleteMapping("/storeDelete/{storeName}")
+    public ResponseEntity<?> StoreDelete(@PathVariable(value = "storeName") String storeName) {
+        Optional<StoreModel> storeModelOptional = Optional.ofNullable(storeService.findByStoreName(storeName));
         if (storeModelOptional.isEmpty()) {
             responseModel.setMessage("Loja não encontrada.");
-            return new ResponseEntity<>(responseModel,HttpStatus.BAD_REQUEST);
-        }
-
-        responseModel.setMessage("Loja encontrada.");
-
-        Map<String, Object> responseMap = new HashMap<>();
-        responseMap.put("storeModel", storeModelOptional.get());
-        responseMap.put("responseModel", responseModel);
-
-        return new ResponseEntity<>(responseMap, HttpStatus.ACCEPTED);
-
-    }
-
-    @DeleteMapping("/storeDelete")
-    public ResponseEntity<?> StoreDelete(@PathVariable (value = "id") UUID id, HttpServletRequest request) {
-        String storeId = CookieService.getCookie(request, "storeId");
-        if (storeId.isEmpty()) {
-            responseModel.setMessage("Não autorizado: O loja não está logado.");
-            return new ResponseEntity<>(responseModel, HttpStatus.UNAUTHORIZED);
-        }
-        Optional<StoreModel> storeModelOptional = storeService.findById(id);
-        if (storeModelOptional.isEmpty()) {
-            responseModel.setMessage("Loja não encontrado.");
-            return new ResponseEntity<>(responseModel,HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(responseModel, HttpStatus.BAD_REQUEST);
         }
 
         storeService.delete(storeModelOptional.get());
-        responseModel.setMessage("Loja deletado");
-        return new ResponseEntity<>(responseModel,HttpStatus.ACCEPTED);
+        responseModel.setMessage("Loja deletada");
+        return new ResponseEntity<>(responseModel, HttpStatus.ACCEPTED);
+    }
+
+    @GetMapping("/storeGet/{storeName}")
+    public ResponseEntity<?> getOneStore(@PathVariable @Valid String storeName) {
+        StoreModel storeModelOptional = storeService.findByStoreName(storeName);
+        if (storeModelOptional == null) {
+            responseModel.setMessage("Loja não encontrada.");
+            return new ResponseEntity<>(responseModel, HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<>(storeModelOptional, HttpStatus.ACCEPTED);
+    }
+
+    @GetMapping("/storeGetAll")
+    public ResponseEntity<List<StoreModel>> getAllStores() {
+        return new ResponseEntity<>(storeRepository.findAll(), HttpStatus.ACCEPTED);
     }
 
 }
