@@ -17,7 +17,7 @@ public class LoginInterceptorAppConfig extends WebMvcConfigurationSupport {
             "/login",
             "/js/**",
             "/css/**",
-            "/",
+
 
 
     //URI a ser excluida, após teste.

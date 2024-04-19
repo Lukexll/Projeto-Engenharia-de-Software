@@ -7,6 +7,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -19,17 +20,20 @@ import com.api.duckDelivery.services.UserService;
 import java.util.Optional;
 import java.util.UUID;
 
+
 @Controller
 @CrossOrigin(origins = "*",maxAge = 3600)
 @RequestMapping("/login")
 public class UserController {
     private final com.api.duckDelivery.services.UserService userService;
+
     public final ResponseModel responseModel;
 
     public UserController(UserService userService, ResponseModel responseModel) {
         this.userService = userService;
         this.responseModel = responseModel;
     }
+
 
     @PostMapping("/userRegister")
     public ResponseEntity<ResponseModel> userRegister(@RequestBody @Valid UserDto userDto) {
@@ -50,6 +54,7 @@ public class UserController {
     public ResponseEntity<?> UserLogin(@RequestBody @Valid LoginModel loginParam, HttpServletResponse response, HttpServletRequest requestCookie) {
         if(!userService.existsByEmail(loginParam.getEmail())){
             responseModel.setMessage("Email não cadastrado.");
+
             return new ResponseEntity<>(responseModel,HttpStatus.BAD_REQUEST);
         }
         if(userService.UserLogin(loginParam.getEmail(), loginParam.getSenha()) == null){
@@ -80,6 +85,7 @@ public class UserController {
         return new ResponseEntity<>(responseModel,HttpStatus.ACCEPTED);
     }
 
+ 
 
 
 }
