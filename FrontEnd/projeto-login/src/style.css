@@ -161,3 +161,19 @@ section.images img {
         padding: 20px;
     }
 }
+
+.form-control{
+    width: 500px;
+    margin: 30px auto;
+}
+
+.form input{
+    margin-bottom: 5px;
+}
+
+form .btn-loja{
+    margin-right: 15px;
+    padding: 10px 30px;
+    border-radius: 4px;
+    cursor: pointer;
+}
