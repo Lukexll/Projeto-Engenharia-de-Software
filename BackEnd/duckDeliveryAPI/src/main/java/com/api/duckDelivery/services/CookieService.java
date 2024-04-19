@@ -19,7 +19,7 @@ public class CookieService {
         .flatMap(cookies -> Arrays.stream(cookies)
         .filter(cookie -> key.equals(cookie.getName()))
         .findAny())
-        .map(e -> e.getValue())
+        .map(Cookie::getValue)
         .orElse(null);
     }
 }

@@ -6,54 +6,47 @@ import com.api.duckDelivery.dtos.UserDto;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
-
-
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.*;
 import com.api.duckDelivery.models.LoginModel;
 import com.api.duckDelivery.models.ResponseModel;
 import com.api.duckDelivery.models.UserModel;
 import com.api.duckDelivery.services.CookieService;
 import com.api.duckDelivery.services.UserService;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import java.util.Optional;
+import java.util.UUID;
 
 
-
-
-
-
-
-@RestController
+@Controller
 @CrossOrigin(origins = "*",maxAge = 3600)
 @RequestMapping("/login")
-
 public class UserController {
     private final com.api.duckDelivery.services.UserService userService;
-    
 
-    public UserController(UserService us, UserService userService) {
+    public final ResponseModel responseModel;
+
+    public UserController(UserService userService, ResponseModel responseModel) {
         this.userService = userService;
+        this.responseModel = responseModel;
     }
 
-    @Autowired
-    public ResponseModel responseModel;
 
     @PostMapping("/userRegister")
-    public ResponseEntity<Object> userRegister(@RequestBody @Valid UserDto userDto){
+    public ResponseEntity<ResponseModel> userRegister(@RequestBody @Valid UserDto userDto) {
         if (userService.existsByEmail(userDto.getEmail())){
-            return ResponseEntity.status(HttpStatus.CONFLICT).body("Conflict: Email existente.");
+            responseModel.setMessage("Conflict: Email existente.");
+            return new ResponseEntity<>(responseModel,HttpStatus.BAD_REQUEST);
         }
+
         var userModel = new UserModel();
         BeanUtils.copyProperties(userDto, userModel);
-        return ResponseEntity.status(HttpStatus.CREATED).body(userService.UserRegister(userModel));
-
+        userService.saveUser(userModel);
+        responseModel.setMessage("Cadastrado.");
+        return new ResponseEntity<>(responseModel,HttpStatus.ACCEPTED);
     }
 
     
@@ -61,7 +54,8 @@ public class UserController {
     public ResponseEntity<?> UserLogin(@RequestBody @Valid LoginModel loginParam, HttpServletResponse response, HttpServletRequest requestCookie) {
         if(!userService.existsByEmail(loginParam.getEmail())){
             responseModel.setMessage("Email não cadastrado.");
-            return new ResponseEntity<ResponseModel>(responseModel,HttpStatus.BAD_REQUEST);
+
+            return new ResponseEntity<>(responseModel,HttpStatus.BAD_REQUEST);
         }
         if(userService.UserLogin(loginParam.getEmail(), loginParam.getSenha()) == null){
             responseModel.setMessage("Senha incorreta.");
@@ -71,8 +65,27 @@ public class UserController {
         responseModel.setMessage("Login efetuado.");
         return new ResponseEntity<ResponseModel>(responseModel,HttpStatus.ACCEPTED);
             
-    } 
-    
-    
+    }
+
+    @DeleteMapping("/userDelete")
+    public ResponseEntity<?> UserDelete(@PathVariable (value = "id") UUID id, HttpServletRequest request) {
+        String userId = CookieService.getCookie(request, "userId");
+        if (userId.isEmpty()) {
+            responseModel.setMessage("Não autorizado: O usuário não está logado.");
+            return new ResponseEntity<>(responseModel, HttpStatus.UNAUTHORIZED);
+        }
+        Optional<UserModel> userModelOptional = userService.findById(id);
+        if (userModelOptional.isEmpty()) {
+            responseModel.setMessage("Usuário não encontrado.");
+            return new ResponseEntity<>(responseModel,HttpStatus.BAD_REQUEST);
+        }
+
+        userService.delete(userModelOptional.get());
+        responseModel.setMessage("Usuário deletado");
+        return new ResponseEntity<>(responseModel,HttpStatus.ACCEPTED);
+    }
+
+ 
+
 
 }
