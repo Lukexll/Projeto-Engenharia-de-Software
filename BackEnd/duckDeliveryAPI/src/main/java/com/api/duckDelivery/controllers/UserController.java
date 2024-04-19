@@ -26,7 +26,7 @@ public class UserController {
     private final com.api.duckDelivery.services.UserService userService;
     public final ResponseModel responseModel;
 
-    public UserController(UserService us, UserService userService, ResponseModel responseModel) {
+    public UserController(UserService userService, ResponseModel responseModel) {
         this.userService = userService;
         this.responseModel = responseModel;
     }

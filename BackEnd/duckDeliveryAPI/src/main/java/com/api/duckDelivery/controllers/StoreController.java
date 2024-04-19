@@ -6,6 +6,7 @@ import com.api.duckDelivery.models.StoreModel;
 import com.api.duckDelivery.repositories.StoreRepository;
 import com.api.duckDelivery.services.CookieService;
 import com.api.duckDelivery.services.StoreService;
+import com.api.duckDelivery.services.UserService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,7 +26,7 @@ public class StoreController {
     private final ResponseModel responseModel;
     private final StoreRepository storeRepository;
 
-    public StoreController(StoreService storeService, ResponseModel responseModel, StoreRepository storeRepository) {
+    public StoreController(StoreService storeService, ResponseModel responseModel, StoreRepository storeRepository, UserService userService) {
         this.storeService = storeService;
         this.responseModel = responseModel;
         this.storeRepository = storeRepository;
@@ -35,8 +36,8 @@ public class StoreController {
     public ResponseEntity<ResponseModel> storeRegister(@RequestBody @Valid StoreDto storeDto, HttpServletRequest request) {
         String userId = CookieService.getCookie(request, "userId");
 
-        if (storeService.existByCNPJ(storeDto.getCNPJ()) && storeService.existByStoreName(storeDto.getStoreName())) {
-            responseModel.setMessage("CNPJ e nome existente");
+        if (storeService.existByStoreName(storeDto.getStoreName())) {
+            responseModel.setMessage("Nome existente");
             return new ResponseEntity<>(responseModel, HttpStatus.BAD_REQUEST);
         }
 
@@ -72,8 +73,9 @@ public class StoreController {
     }
 
     @GetMapping("/storeGetAll")
-    public ResponseEntity<List<StoreModel>> getAllStores() {
-        return new ResponseEntity<>(storeRepository.findAll(), HttpStatus.ACCEPTED);
+    public ResponseEntity<List<StoreModel>> getAllStores(HttpServletRequest request) {
+        String userId = CookieService.getCookie(request, "userId");
+        return new ResponseEntity<>(storeRepository.findAllStore(userId), HttpStatus.ACCEPTED);
     }
 
 }

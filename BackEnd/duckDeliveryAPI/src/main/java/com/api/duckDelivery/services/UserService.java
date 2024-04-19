@@ -2,7 +2,6 @@ package com.api.duckDelivery.services;
 
 
 import com.api.duckDelivery.models.UserModel;
-import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 
 
@@ -18,12 +17,6 @@ public class UserService {
     private final UserRepository userRepository;
     public UserService(UserRepository ur) {
         this.userRepository = ur;
-    }
-
-    //Método para cadastro de usuário
-    @Transactional
-    public UserModel UserRegister(@RequestBody @Valid UserModel userModel){
-        return userRepository.save(userModel);
     }
 
     public boolean existsByEmail(String emailUser){

@@ -19,10 +19,6 @@ public class StoreService {
         return storeRepository.save(storeModel);
     }
 
-    public boolean existByCNPJ (String CNPJ){
-        return storeRepository.existsByCNPJ(CNPJ);
-    }
-
     public  boolean existByStoreName(String storeName){
         return storeRepository.existsByStoreName(storeName);
     }
@@ -34,4 +30,6 @@ public class StoreService {
     public StoreModel findByStoreName(String storeName){
         return storeRepository.findByStoreName(storeName);
     }
+
+
 }
