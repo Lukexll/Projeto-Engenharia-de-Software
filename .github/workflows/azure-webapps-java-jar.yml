@@ -41,6 +41,8 @@ jobs:
       
       - name: Azure Login
         uses: Azure/login@v2.1.0
+        with:
+          creds: ${{ secrets.SECRET_VALUE }}
             
       - name: Set up Java version
         uses: actions/setup-java@v3.0.0
