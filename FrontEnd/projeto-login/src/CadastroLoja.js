@@ -20,11 +20,7 @@ function CadastroLoja(){
 
     const aoDigitar = (e) => {
         setObjLojas({...objLojas, [e.target.name]:e.target.value});
-    }
-    const handleSelect = (e) => {
-        setObjLojas({...objLojas, [e.target.name]:e.target.value});     
-    }
-    
+    } 
     const cadastroLoja = () => {
         /*fetch('http://localhost:8080/login/cadastroLoja', {
           method: 'post',
@@ -52,7 +48,6 @@ function CadastroLoja(){
         <div> 
             <FormularioLoja botao={btnCadastrar}
                             eventoTeclado={aoDigitar}
-                            selecionaCategoria={handleSelect}
                             cadastroLoja={cadastroLoja}/>
         </div>
     );     
