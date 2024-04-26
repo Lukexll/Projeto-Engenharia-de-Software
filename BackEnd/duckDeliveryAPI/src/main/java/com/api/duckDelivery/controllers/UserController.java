@@ -66,14 +66,14 @@ public class UserController {
             
     }
 
-    @DeleteMapping("/userDelete")
-    public ResponseEntity<?> UserDelete(HttpServletRequest request) {
+    @DeleteMapping("/userDelete/{id}")
+    public ResponseEntity<?> UserDelete(@PathVariable (value = "id") UUID id, HttpServletRequest request) {
         String userId = CookieService.getCookie(request, "userId");
         if (userId.isEmpty()) {
             responseModel.setMessage("Não autorizado: O usuário não está logado.");
             return new ResponseEntity<>(responseModel, HttpStatus.UNAUTHORIZED);
         }
-        Optional<UserModel> userModelOptional = userService.findById(UUID.fromString(userId));
+        Optional<UserModel> userModelOptional = userService.findById(id);
         if (userModelOptional.isEmpty()) {
             responseModel.setMessage("Usuário não encontrado.");
             return new ResponseEntity<>(responseModel,HttpStatus.BAD_REQUEST);
@@ -83,8 +83,4 @@ public class UserController {
         responseModel.setMessage("Usuário deletado");
         return new ResponseEntity<>(responseModel,HttpStatus.ACCEPTED);
     }
-
- 
-
-
 }

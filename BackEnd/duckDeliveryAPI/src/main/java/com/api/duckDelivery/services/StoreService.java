@@ -6,13 +6,24 @@ import jakarta.validation.Valid;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 
+import java.util.Optional;
+import java.util.UUID;
+
 @Service
 public class StoreService {
 
-    private  final StoreRepository storeRepository;
+    private static StoreRepository storeRepository;
 
     public StoreService(StoreRepository storeRepository) {
-        this.storeRepository = storeRepository;
+        StoreService.storeRepository = storeRepository;
+    }
+
+    public static StoreModel save(StoreModel storeModel) {
+        return storeRepository.save(storeModel);
+    }
+
+    public static Optional<StoreModel> findById(UUID id) {
+        return storeRepository.findById(id);
     }
 
     public StoreModel saveStore(@RequestBody @Valid StoreModel storeModel) {

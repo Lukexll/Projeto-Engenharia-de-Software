@@ -15,6 +15,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Controller
 @CrossOrigin(origins = "*", maxAge = 3600)
@@ -77,4 +78,19 @@ public class StoreController {
         return new ResponseEntity<>(storeRepository.findAllStore(userId), HttpStatus.ACCEPTED);
     }
 
+    @PutMapping("/storeEdit/{nameLoja}")
+    public ResponseEntity<Object> updateParkingSpot(@PathVariable(value = "nameLoja") String nameLoja,
+                                                    @RequestBody @Valid StoreDto storeDto){
+
+        Optional<StoreModel> storeModelOptional = Optional.ofNullable(storeService.findByStoreName(nameLoja));
+        if (storeModelOptional.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Loja não encontrada.");
+        }
+
+        var storeModel = new StoreModel();
+        BeanUtils.copyProperties(storeDto, storeModel);
+        storeModel.setId(storeModelOptional.get().getId());
+        return new ResponseEntity<>(storeService.saveStore(storeModel), HttpStatus.ACCEPTED);
+
+    }
 }

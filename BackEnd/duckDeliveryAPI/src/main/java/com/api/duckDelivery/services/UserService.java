@@ -22,6 +22,7 @@ public class UserService {
     public boolean existsByEmail(String emailUser){
         return userRepository.existsByEmail(emailUser);
     }
+
     public UserModel findByEmail(@RequestBody @Valid String emailUser){
         return userRepository.findByEmail(emailUser);
     }
