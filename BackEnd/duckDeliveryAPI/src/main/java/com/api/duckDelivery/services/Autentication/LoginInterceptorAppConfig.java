@@ -24,7 +24,9 @@ public class LoginInterceptorAppConfig extends WebMvcConfigurationSupport {
             "/store/storeRegister",
             "/store/storeGet/MrPizzas",
             "/store/storeDelete/MrPizzas",
-            "/store/storeGetAll"
+            "/store/storeGetAll",
+            "/store/storeEdit/{nameStore}",
+            "/store/storeEdit/{id}"
         );
     }
 }

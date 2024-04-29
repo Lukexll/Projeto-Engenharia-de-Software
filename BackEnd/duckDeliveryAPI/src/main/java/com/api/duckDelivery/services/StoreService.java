@@ -18,10 +18,6 @@ public class StoreService {
         StoreService.storeRepository = storeRepository;
     }
 
-    public static StoreModel save(StoreModel storeModel) {
-        return storeRepository.save(storeModel);
-    }
-
     public static Optional<StoreModel> findById(UUID id) {
         return storeRepository.findById(id);
     }

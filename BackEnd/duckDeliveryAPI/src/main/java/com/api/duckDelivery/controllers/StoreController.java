@@ -78,19 +78,40 @@ public class StoreController {
         return new ResponseEntity<>(storeRepository.findAllStore(userId), HttpStatus.ACCEPTED);
     }
 
-    @PutMapping("/storeEdit/{nameLoja}")
-    public ResponseEntity<Object> updateParkingSpot(@PathVariable(value = "nameLoja") String nameLoja,
-                                                    @RequestBody @Valid StoreDto storeDto){
+//    @PutMapping("/storeEdit/{id}")
+//    public ResponseEntity<Object> updateStore(@PathVariable(value = "id") UUID id,
+//                                                    @RequestBody @Valid StoreDto storeDto){
+//
+//        Optional<StoreModel> storeModelOptional = StoreService.findById(id);
+//        if (storeModelOptional.isEmpty()) {
+//            responseModel.setMessage("Loja não encontrada.");
+//            return new ResponseEntity<>(responseModel, HttpStatus.BAD_REQUEST);
+//        }
+//
+//        var storeModel = new StoreModel();
+//        BeanUtils.copyProperties(storeDto, storeModel);
+//        storeModel.setId(storeModelOptional.get().getId());
+//        return new ResponseEntity<>(storeService.saveStore(storeModel), HttpStatus.ACCEPTED);
+//
+//    }
 
-        Optional<StoreModel> storeModelOptional = Optional.ofNullable(storeService.findByStoreName(nameLoja));
+    @PutMapping("/storeEdit/{nameStore}")
+    public ResponseEntity<?> updateStore(@PathVariable(value = "nameStore") String nameStore,
+                                              @RequestBody @Valid StoreDto storeDto){
+
+        Optional<StoreModel> storeModelOptional = Optional.ofNullable(storeService.findByStoreName(nameStore));
         if (storeModelOptional.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Loja não encontrada.");
+            responseModel.setMessage("Loja não encontrada.");
+            return new ResponseEntity<>(responseModel, HttpStatus.BAD_REQUEST);
         }
 
         var storeModel = new StoreModel();
         BeanUtils.copyProperties(storeDto, storeModel);
         storeModel.setId(storeModelOptional.get().getId());
-        return new ResponseEntity<>(storeService.saveStore(storeModel), HttpStatus.ACCEPTED);
+        storeService.saveStore(storeModel);
+        responseModel.setMessage("Alterado com sucesso.");
+        return new ResponseEntity<>(responseModel, HttpStatus.ACCEPTED);
 
     }
+
 }
